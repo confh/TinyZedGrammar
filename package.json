@@ -1,0 +1,8 @@
+{
+  "name": "tree-sitter-tiny",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "tree-sitter-cli": "^0.25.0"
+  }
+}
