@@ -2,12 +2,19 @@
   {
     "type": "source_file",
     "named": true,
-    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "delimiter",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -25,10 +32,6 @@
           "named": true
         },
         {
-          "type": "punctuation",
-          "named": true
-        },
-        {
           "type": "string",
           "named": true
         }
@@ -36,9 +39,28 @@
     }
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
     "type": "comment",
-    "named": true,
-    "extra": true
+    "named": true
+  },
+  {
+    "type": "delimiter",
+    "named": true
   },
   {
     "type": "identifier",
@@ -57,11 +79,15 @@
     "named": true
   },
   {
-    "type": "punctuation",
+    "type": "string",
     "named": true
   },
   {
-    "type": "string",
-    "named": true
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]

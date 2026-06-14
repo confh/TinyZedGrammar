@@ -10,61 +10,111 @@ module.exports = grammar({
     source_file: $ => repeat($._token),
 
     _token: $ => choice(
+      $.comment,
       $.string,
       $.number,
       $.keyword,
       $.identifier,
       $.operator,
-      $.punctuation
+      $.delimiter,
+
+      // expose brackets as real anonymous tokens for Zed brackets.scm
+      "(",
+      ")",
+      "{",
+      "}",
+      "[",
+      "]"
     ),
 
     comment: $ => token(seq("//", /.*/)),
 
     string: $ => token(choice(
       seq('"', repeat(choice(/[^"\\]/, /\\./)), '"'),
-      seq("'", repeat(choice(/[^'\\]/, /\\./)), "'")
+      seq("'", repeat(choice(/[^'\\]/, /\\./)), "'"),
+      seq("`", repeat(choice(/[^`\\]/, /\\./)), "`")
     )),
 
-    number: $ => token(/\d+(\.\d+)?/),
+    number: $ => token(choice(
+      /\d+\.\d+/,
+      /\d+/
+    )),
 
     keyword: $ => token(choice(
+      "import",
+      "std",
+      "lib",
+      "plugin",
+      "as",
+      "export",
+
+      "interface",
+      "class",
+      "enum",
+      "embed",
+      "embedstr",
+      "embeddir",
+      "embedbin",
+      "go",
+      "native",
+      "defer",
+      "lock",
+      "fn",
       "let",
       "const",
-      "fn",
+
       "return",
       "if",
       "else",
       "while",
       "for",
+      "instanceof",
+      "in",
+      "match",
       "break",
       "continue",
+      "field",
+      "private",
+      "public",
+
+      "try",
+      "catch",
+      "finally",
+      "throw",
+
+      "spawn",
+      "await",
+      "async",
+
+      "and",
+      "or",
+      "typeof",
+
       "true",
       "false",
       "null",
-      "class",
-      "interface",
-      "enum",
-      "import",
-      "from",
-      "try",
-      "catch",
-      "throw",
-      "spawn",
-      "await",
-      "lock"
+      "undefined",
+      "this"
     )),
 
     identifier: $ => token(/[A-Za-z_][A-Za-z0-9_]*/),
 
     operator: $ => token(choice(
+      "=>",
+      "??",
+      "?.",
       "==",
       "!=",
       "<=",
       ">=",
       "&&",
       "||",
-      "??",
-      "?.",
+      "+=",
+      "-=",
+      "*=",
+      "/=",
+      "++",
+      "--",
       "+",
       "-",
       "*",
@@ -77,16 +127,10 @@ module.exports = grammar({
       "."
     )),
 
-    punctuation: $ => token(choice(
-      "(",
-      ")",
-      "{",
-      "}",
-      "[",
-      "]",
+    delimiter: $ => token(choice(
       ",",
-      ";",
-      ":"
+      ":",
+      ";"
     )),
   }
 });

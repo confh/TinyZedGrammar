@@ -1,5 +1,4 @@
 {
-  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "tiny",
   "rules": {
     "source_file": {
@@ -12,6 +11,10 @@
     "_token": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "comment"
+        },
         {
           "type": "SYMBOL",
           "name": "string"
@@ -34,7 +37,31 @@
         },
         {
           "type": "SYMBOL",
-          "name": "punctuation"
+          "name": "delimiter"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
@@ -116,6 +143,35 @@
                 "value": "'"
               }
             ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "`"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[^`\\\\]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "\\\\."
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "STRING",
+                "value": "`"
+              }
+            ]
           }
         ]
       }
@@ -123,8 +179,17 @@
     "number": {
       "type": "TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "\\d+(\\.\\d+)?"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "\\d+\\.\\d+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\d+"
+          }
+        ]
       }
     },
     "keyword": {
@@ -134,15 +199,83 @@
         "members": [
           {
             "type": "STRING",
+            "value": "import"
+          },
+          {
+            "type": "STRING",
+            "value": "std"
+          },
+          {
+            "type": "STRING",
+            "value": "lib"
+          },
+          {
+            "type": "STRING",
+            "value": "plugin"
+          },
+          {
+            "type": "STRING",
+            "value": "as"
+          },
+          {
+            "type": "STRING",
+            "value": "export"
+          },
+          {
+            "type": "STRING",
+            "value": "interface"
+          },
+          {
+            "type": "STRING",
+            "value": "class"
+          },
+          {
+            "type": "STRING",
+            "value": "enum"
+          },
+          {
+            "type": "STRING",
+            "value": "embed"
+          },
+          {
+            "type": "STRING",
+            "value": "embedstr"
+          },
+          {
+            "type": "STRING",
+            "value": "embeddir"
+          },
+          {
+            "type": "STRING",
+            "value": "embedbin"
+          },
+          {
+            "type": "STRING",
+            "value": "go"
+          },
+          {
+            "type": "STRING",
+            "value": "native"
+          },
+          {
+            "type": "STRING",
+            "value": "defer"
+          },
+          {
+            "type": "STRING",
+            "value": "lock"
+          },
+          {
+            "type": "STRING",
+            "value": "fn"
+          },
+          {
+            "type": "STRING",
             "value": "let"
           },
           {
             "type": "STRING",
             "value": "const"
-          },
-          {
-            "type": "STRING",
-            "value": "fn"
           },
           {
             "type": "STRING",
@@ -166,6 +299,18 @@
           },
           {
             "type": "STRING",
+            "value": "instanceof"
+          },
+          {
+            "type": "STRING",
+            "value": "in"
+          },
+          {
+            "type": "STRING",
+            "value": "match"
+          },
+          {
+            "type": "STRING",
             "value": "break"
           },
           {
@@ -174,35 +319,15 @@
           },
           {
             "type": "STRING",
-            "value": "true"
+            "value": "field"
           },
           {
             "type": "STRING",
-            "value": "false"
+            "value": "private"
           },
           {
             "type": "STRING",
-            "value": "null"
-          },
-          {
-            "type": "STRING",
-            "value": "class"
-          },
-          {
-            "type": "STRING",
-            "value": "interface"
-          },
-          {
-            "type": "STRING",
-            "value": "enum"
-          },
-          {
-            "type": "STRING",
-            "value": "import"
-          },
-          {
-            "type": "STRING",
-            "value": "from"
+            "value": "public"
           },
           {
             "type": "STRING",
@@ -211,6 +336,10 @@
           {
             "type": "STRING",
             "value": "catch"
+          },
+          {
+            "type": "STRING",
+            "value": "finally"
           },
           {
             "type": "STRING",
@@ -226,7 +355,39 @@
           },
           {
             "type": "STRING",
-            "value": "lock"
+            "value": "async"
+          },
+          {
+            "type": "STRING",
+            "value": "and"
+          },
+          {
+            "type": "STRING",
+            "value": "or"
+          },
+          {
+            "type": "STRING",
+            "value": "typeof"
+          },
+          {
+            "type": "STRING",
+            "value": "true"
+          },
+          {
+            "type": "STRING",
+            "value": "false"
+          },
+          {
+            "type": "STRING",
+            "value": "null"
+          },
+          {
+            "type": "STRING",
+            "value": "undefined"
+          },
+          {
+            "type": "STRING",
+            "value": "this"
           }
         ]
       }
@@ -243,6 +404,18 @@
       "content": {
         "type": "CHOICE",
         "members": [
+          {
+            "type": "STRING",
+            "value": "=>"
+          },
+          {
+            "type": "STRING",
+            "value": "??"
+          },
+          {
+            "type": "STRING",
+            "value": "?."
+          },
           {
             "type": "STRING",
             "value": "=="
@@ -269,11 +442,27 @@
           },
           {
             "type": "STRING",
-            "value": "??"
+            "value": "+="
           },
           {
             "type": "STRING",
-            "value": "?."
+            "value": "-="
+          },
+          {
+            "type": "STRING",
+            "value": "*="
+          },
+          {
+            "type": "STRING",
+            "value": "/="
+          },
+          {
+            "type": "STRING",
+            "value": "++"
+          },
+          {
+            "type": "STRING",
+            "value": "--"
           },
           {
             "type": "STRING",
@@ -318,46 +507,22 @@
         ]
       }
     },
-    "punctuation": {
+    "delimiter": {
       "type": "TOKEN",
       "content": {
         "type": "CHOICE",
         "members": [
           {
             "type": "STRING",
-            "value": "("
-          },
-          {
-            "type": "STRING",
-            "value": ")"
-          },
-          {
-            "type": "STRING",
-            "value": "{"
-          },
-          {
-            "type": "STRING",
-            "value": "}"
-          },
-          {
-            "type": "STRING",
-            "value": "["
-          },
-          {
-            "type": "STRING",
-            "value": "]"
-          },
-          {
-            "type": "STRING",
             "value": ","
           },
           {
             "type": "STRING",
-            "value": ";"
+            "value": ":"
           },
           {
             "type": "STRING",
-            "value": ":"
+            "value": ";"
           }
         ]
       }
@@ -377,6 +542,6 @@
   "precedences": [],
   "externals": [],
   "inline": [],
-  "supertypes": [],
-  "reserved": {}
+  "supertypes": []
 }
+
